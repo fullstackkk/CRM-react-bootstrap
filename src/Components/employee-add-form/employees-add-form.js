@@ -17,12 +17,10 @@ class EmployeesAddForm extends Component {
             // значение атрибута name=" " должно совпадать с названием поля у состояния state , и там и тут salary 
             // а значит они могут друг друга заменить 
         })
-        console.log(this.state)
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log(this.props);
         this.props.onAdd(this.state.name, this.state.salary);
         this.setState({
             name: '',

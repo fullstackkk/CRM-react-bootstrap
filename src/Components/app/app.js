@@ -16,7 +16,8 @@ class App extends Component {
                 { name: 'John C.', salary: 800, increase: false, rise: true, id: 1 },
                 { name: 'Alex C.', salary: 3000, increase: true, rise: false, id: 2 },
                 { name: 'Lila T.', salary: 500, increase: false, rise: false, id: 3 }
-            ]
+            ],
+            term: ''
         }
         this.maxId = 4;
     }
@@ -25,7 +26,6 @@ class App extends Component {
 
     deleteItem = (id) => {
         this.setState(({ data }) => {
-            console.log(data)
             return {
                 data: data.filter(item => item.id !== id)
             }
@@ -48,7 +48,7 @@ class App extends Component {
         })
     }
 
-    onToggleIncrease = (id) => {
+    onToggleProp = (id, prop) => {
         /* this.setState(({ data }) => {
             const index = data.findIndex(elem => elem.id === id)
 
@@ -65,7 +65,7 @@ class App extends Component {
         this.setState(({ data }) => ({
             data: data.map(item => {
                 if (item.id === id) {
-                    return { ...item, increase: !item.increase }
+                    return { ...item, [prop]: !item[prop] }
                 }
                 return item;
             })
@@ -73,23 +73,62 @@ class App extends Component {
 
     }
 
-    onToggleRise = (id) => {
-        console.log(`Rise this ${id}`)
+    //этот метод мы удалили так как в замен его и того что выше закоментирован мы создали один метод который изменяет 
+    // не какае то конкретное свойство а что то что мы передаем как аргументт 
+    /* onToggleRise = (id) => {
+        this.setState(({ data }) => ({
+            data: data.map(item => {
+                if (item.id === id) {
+                    return { ...item, rise: !item.rise }
+                }
+                return item;
+            })
+        }))
+    } */
+
+    searchEmp = (items, term) => {
+        if (term.length === 0) {
+            return items
+        }
+
+        return items.filter(item => {
+            return item.name.indexOf(term) > -1
+        })
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({ term: term })
+    }
+
+    onFilterByeSalary = (active, prop) => {
+        if (!active) {
+            return prop
+        }
+
+        return prop.filter(item => {
+            return item.salary >= 1000
+        })
     }
 
     render() {
+        const { data, term } = this.state;
+        const employees = this.state.data.length;
+        const increased = this.state.data.filter(item => item.increase).length;
+        const visibleData = this.searchEmp(data, term);
+
         return (
             <div className="app">
-                <AppInfo />
+                <AppInfo employees={employees}
+                    increased={increased} />
 
                 <div className="search-panel">
-                    <SearchPanel />
-                    <AppFilter />
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch} />
+                    <AppFilter
+                        onFilterByeSalary={this.onFilterByeSalary} />
                 </div>
-                <EmployeeList data={this.state.data}
+                <EmployeeList data={visibleData}
                     onDelete={this.deleteItem}
-                    onToggleIncrease={this.onToggleIncrease}
-                    onToggleRise={this.onToggleRise} />
+                    onToggleProp={this.onToggleProp} />
                 <EmployeesAddForm onAdd={this.addItem} />
             </div>
         )
