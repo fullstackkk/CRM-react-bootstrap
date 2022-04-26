@@ -1,48 +1,45 @@
-import { Component } from 'react';
-
 import './app-filter.css';
 
-class AppFilter extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            all: true,
-            rise: false,
-            salary: false
-        }
-    }
-
-    onValueChange = (e) => {
-        this.setState({
-            [e.target.name]: true
-        })
-    }
+const AppFilter = (props) => {
+    const buttonsData = [
+        { name: 'all', label: 'Все сотрудники' },
+        { name: 'rise', label: 'На повышение' },
+        { name: 'salaryMore1000$', label: 'З/П больше 1000$' }
+    ]
 
 
-    render() {
+
+    const buttons = buttonsData.map(({ name, label }) => {
+        const active = props.filter === name
+        const clazz = active ? "btn-light" : "btn-outline-light"
+
         return (
-            <div className="btn-group">
-                <button className="btn btn-light"
-                    type="button"
-                    name="all"
-                    onClick={this.onValueChange}>
-                    Все сотрудники
-                </button>
-                <button className="btn btn-outline-light"
-                    type="button"
-                    name="rise"
-                    onClick={this.onValueChange}>
-                    На повышение
-                </button>
-                <button className="btn btn-outline-light"
-                    type="button"
-                    name="salary"
-                    onClick={this.onValueChange}>
-                    З/П больше 1000$
-                </button>
-            </div>
+            <button className={`btn ${clazz}`}
+                type="button"
+                key={name}
+                onClick={() => props.onUpdateFilter(name)}>
+                {label}
+            </button>
         )
-    }
+    })
+
+    return (
+        <div className="btn-group" >
+            {buttons}
+            {/* <button className="btn btn-light"
+                type="button">
+                Все сотрудники
+            </button>
+            <button className="btn btn-outline-light"
+                type="button">
+                На повышение
+            </button>
+            <button className="btn btn-outline-light"
+                type="button">
+                З/П больше 1000$
+            </button> */}
+        </div>
+    )
 }
 
 export default AppFilter;
