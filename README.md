@@ -4,8 +4,7 @@
 
 - ## Used technologies
   - #### Html
-  - #### SCSS
+  - #### CSS
   - #### JavaScript
   - #### Webpack
   - #### React
-
