@@ -50,19 +50,6 @@ class App extends Component {
     }
 
     onToggleProp = (id, prop) => {
-        /* this.setState(({ data }) => {
-            const index = data.findIndex(elem => elem.id === id)
-
-            const old = data[index];
-            const newItem = { ...old, increase: !old.increase }
-            const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
-
-            return {
-                data: newArr
-            }
-
-        }) */
-        // ниже следует еще одна реализация этоого же кода 
         this.setState(({ data }) => ({
             data: data.map(item => {
                 if (item.id === id) {
@@ -73,19 +60,6 @@ class App extends Component {
         }))
 
     }
-
-    //этот метод мы удалили так как в замен его и того что выше закоментирован мы создали один метод который изменяет 
-    // не какае то конкретное свойство а что то что мы передаем как аргументт 
-    /* onToggleRise = (id) => {
-        this.setState(({ data }) => ({
-            data: data.map(item => {
-                if (item.id === id) {
-                    return { ...item, rise: !item.rise }
-                }
-                return item;
-            })
-        }))
-    } */
 
     searchEmp = (items, term) => {
         if (term.length === 0) {
